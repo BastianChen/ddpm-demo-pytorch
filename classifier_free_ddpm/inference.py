@@ -33,12 +33,12 @@ def inference(args):
     map_location = None if torch.cuda.is_available() else lambda storage, loc: storage
     model.to(device)
     model.load_state_dict((torch.load(args.pth_path, map_location=map_location)))
-    # model.load_state_dict((torch.load(args.pth_path)))
     model.eval()
 
     gaussian_diffusion = GaussianDiffusion(timesteps=timesteps)
 
     label = torch.randint(0, 10, (batch_size,)).to(device)
+    label_cifar = ['plane ', 'auto', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
     generated_images = gaussian_diffusion.sample(model, label, image_size, batch_size=batch_size, channels=in_channels)
     # generated_images: [timesteps, batch_size=64, channels=1, height=28, width=28]
 
@@ -63,7 +63,8 @@ def inference(args):
             else:
                 f_ax.imshow((img + 1.0) * 255 / 2, cmap="gray")
             f_ax.axis("off")
-            plt.title(f"condition: {label[n_row * 8 + n_col]}")
+            plt.title(
+                f"{label_cifar[label[n_row * 8 + n_col]] if datasets_type else label[n_row * 8 + n_col]}")
     f = plt.gcf()  # 获取当前图像
     f.savefig(f'photos/classifier_free_{save_image_name}_1.png')
     f.clear()  # 释放内存
@@ -85,7 +86,7 @@ def inference(args):
                 img = img[0]
                 f_ax.imshow((img + 1.0) * 255 / 2, cmap="gray")
             f_ax.axis("off")
-            plt.title(f"{label[n_row]}")
+            plt.title(f"{label_cifar[label[n_row]] if datasets_type else label[n_row]}")
 
     f = plt.gcf()  # 获取当前图像
     f.savefig(f'photos/classifier_free_{save_image_name}_2.png')

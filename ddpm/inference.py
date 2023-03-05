@@ -30,10 +30,9 @@ def inference(args):
         attention_resolutions=[]
     )
 
-    # map_location = None if torch.cuda.is_available() else lambda storage, loc: storage
+    map_location = None if torch.cuda.is_available() else lambda storage, loc: storage
     model.to(device)
-    # model.load_state_dict((torch.load(args.pth_path, map_location=map_location)))
-    model.load_state_dict((torch.load(args.pth_path)))
+    model.load_state_dict((torch.load(args.pth_path, map_location=map_location)))
     model.eval()
 
     gaussian_diffusion = GaussianDiffusion(timesteps=timesteps)
