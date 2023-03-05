@@ -10,6 +10,22 @@ Experiments were conducted on MNIST and Cifar10 datasets.
 - torchvision 0.7.0
 - python 3.7.16
 
+## Requirements
+- Download dataset and pth file from DDPM-Demo file:
+
+    [DDPM-Demo](https://www.aliyundrive.com/s/rpqX43VFfpT)
+## Project structure
+├── classifier_free_ddpm  \
+│　　├── models  \
+│　　└── photos  \
+│　　└── ...  \
+├── datasets  \
+├── ddpm  \
+│　　├── models  \
+│　　└── photos  \
+│　　└── ...  \
+└── README.md
+
 ## Train 
 
 MNIST:
